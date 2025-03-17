@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT Mock Tests - CRachd</title>
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #ff006e;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --success: #38b000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background-color: #2a75e8;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e0005f;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(58, 134, 255, 0.1), rgba(58, 134, 255, 0.05));
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .test-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .features li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: rgba(58, 134, 255, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        
+        .price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: #777;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-links h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #aaa;
+        }
+        
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .popular {
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Crackd</div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Mock Tests</a></li>
+                    <li><a href="#">Resources</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#" class="btn">Sign Up</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>SAT Mock Tests</h1>
+            <p>Practice with realistic, full-length SAT mock tests designed to simulate the actual exam experience. Improve your score with detailed analytics and personalized feedback.</p>
+            <a href="#packages" class="btn">View Packages</a>
+            <a href="#features" class="btn btn-secondary">Our Features</a>
+        </div>
+    </section>
+    
+    <section id="packages">
+        <div class="container">
+            <h2 class="section-title">Our SAT Mock Test Packages</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="card-header">Basic Package</div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li>3 Full-Length SAT Simulations</li>
+                            <li>5 Mini Mock Tests for targeted practice</li>
+                            <li>Score Breakdown by section</li>
+                            <li>Basic Time Analysis</li>
+                            <li>1-month Access</li>
+                        </ul>
+                        <div>
+                            <span class="tag">Reading</span>
+                            <span class="tag">Writing</span>
+                            <span class="tag">Math</span>
+                        </div>
+                        <div class="price">$9.99 <span>per month</span></div>
+                        <a href="#" class="btn" style="width: 100%; text-align: center;">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="test-card popular">
+                    <div class="badge"><br>POPULAR</div>
+                    <div class="card-header" style="background-color: var(--secondary);">Standard Package</div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li>7 Full-Length SAT/ACT Simulations</li>
+                            <li>12 Mini Mock Tests for targeted practice</li>
+                            <li>Detailed Score Breakdown by section & question type</li>
+                            <li>Comprehensive Time Analysis</li>
+                            <li>AI Recommendations for areas of improvement</li>
+                            <li>3-month Access</li>
+                        </ul>
+                        <div>
+                            <span class="tag">Reading</span>
+                            <span class="tag">Writing</span>
+                            <span class="tag">Math</span>
+                            <span class="tag">AI Feedback</span>
+                        </div>
+                        <div class="price">$15.99 <span>per month</span></div>
+                        <a href="#" class="btn btn-secondary" style="width: 100%; text-align: center;">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="test-card">
+                    <div class="card-header">Premium Package</div>
+                    <div class="card-body">
+                        <ul class="features">
+                            <li>12 Full-Length SAT/ACT Simulations</li>
+                            <li>Unlimited Mini Mock Tests tailored to weak areas</li>
+                            <li>Complete Score Breakdown with question-level analysis</li>
+                            <li>Advanced Time Analysis with pacing strategies</li>
+                            <li>Personalized AI Study Plan & Recommendations</li>
+                            <li>1-on-1 Virtual Coaching Session</li>
+                            <li>6-month Access</li>
+                        </ul>
+                        <div>
+                            <span class="tag">Reading</span>
+                            <span class="tag">Writing</span>
+                            <span class="tag">Math</span>
+                            <span class="tag">AI Feedback</span>
+                            <span class="tag">Coaching</span>
+                        </div>
+                        <div class="price">$24.99 <span>per month</span></div>
+                        <a href="#" class="btn" style="width: 100%; text-align: center;">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features" style="background-color: #f1f5ff;">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Full-Length Test Simulations</h3>
+                    <p>Experience real test conditions with timed sections that accurately mimic the SAT/ACT format and difficulty.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Mini Mock Tests</h3>
+                    <p>AI-generated short quizzes that focus specifically on your weak areas for targeted improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Score Breakdown</h3>
+                    <p>Detailed section-wise performance analysis showing your strengths and areas needing improvement.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3>Time Analysis</h3>
+                    <p>Comprehensive tracking of how long you spend per question to help optimize your pacing strategy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Recommendations</h3>
+                    <p>Personalized suggestions for improvement based on your performance patterns and test history.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-Device Access</h3>
+                    <p>Practice anytime, anywhere with our responsive platform that works on desktop, tablet, and mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section>
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">Ready to Improve Your Score?</h2>
+            <p style="max-width: 700px; margin: 0 auto 30px;">Join thousands of students who have boosted their SAT and ACT scores with CRachd's intelligent testing platform.</p>
+            <a href="#packages" class="btn">Choose Your Package</a>
+
+        </div>
+        </section>
+        <section style="background-color: #f1f5ff;">
+            <div class="container">
+                <h2 class="section-title">Why Choose CRachd SAT Mock Tests?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Data-Driven Insights</h3>
+                        <p>Detailed analytics on your performance help you identify strengths and weaknesses.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Realistic Test Experience</h3>
+                        <p>Our mock tests accurately simulate the format, difficulty, and timing of the actual SAT.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Mobile & Desktop Access</h3>
+                        <p>Practice anytime, anywhere with our responsive platform.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Adaptive Learning</h3>
+                        <p>Our system adapts to your learning needs based on your performance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div class="container" style="text-align: center;">
+                <h2 class="section-title">Get Started Today</h2>
+                <p style="max-width: 700px; margin: 0 auto 30px;">Join thousands of students who have improved their SAT scores with CRachd's mock tests and comprehensive prep materials.</p>
+                <a href="#" class="btn">Start Free Trial</a>
+                <a href="#" class="btn btn-secondary">View All Packages</a>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-links">
+                        <h3>Products</h3>
+                        <ul>
+                            <li><a href="#">SAT Prep</a></li>
+                            <li><a href="#">ACT Prep</a></li>
+                            <li><a href="#">AP Exams</a></li>
+                            <li><a href="#">College Admission</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Study Tips</a></li>
+                            <li><a href="#">Test Dates</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Testimonials</a></li>
+                        </ul>
+                    

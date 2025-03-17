@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT Preparation App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --text-white: #ffffff;
+            --background-light: #f9fafb;
+            --border-color: #e5e7eb;
+            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--background-light);
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+            padding: 20px 0;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        header .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .app-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .main-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .tabs-container {
+            display: flex;
+            background-color: var(--primary-light);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        
+        .tabs-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .lesson-tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .lesson-tab:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .lesson-tab.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            background-color: white;
+        }
+        
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .custom-topic-container {
+            padding: 24px;
+            background-color: white;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .input-group {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        #custom-topic {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+            color: var(--text-dark);
+        }
+        
+        #custom-topic:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-option {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .difficulty-option:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .difficulty-option.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        #generate-lesson {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        #generate-lesson:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        #generate-lesson:active {
+            transform: translateY(0);
+        }
+        
+        .lesson-content {
+            padding: 30px;
+            background-color: white;
+        }
+        
+        .lesson-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .active-lesson-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-right: auto;
+        }
+        
+        .active-lesson-difficulty {
+            padding: 6px 12px;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .lesson-content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--primary-light);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .lesson-content-text p {
+            margin-bottom: 16px;
+        }
+        
+        .lesson-content-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-box {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .question-box:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        
+        .options-container {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 14px;
+            background-color: white;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .option.selected {
+            border-color: var(--primary-color);
+        }
+        
+        .option.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-color: var(--success-color);
+        }
+        
+        .option.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: var(--error-color);
+        }
+        
+        .option.correct-answer {
+            border: 2px solid var(--success-color);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .option-letter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            text-align: center;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border-radius: 50%;
+            margin-right: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover .option-letter {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .option.correct .option-letter {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .option.incorrect .option-letter {
+            background-color: var(--error-color);
+            color: white;
+        }
+        
+        .option-text {
+            font-size: 1.1rem;
+        }
+        
+        .feedback-container {
+            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .feedback {
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .feedback.correct {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .feedback.incorrect {
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error-color);
+            color: var(--text-dark);
+        }
+        
+        .tip-highlight {
+            background-color: rgba(245, 158, 11, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--warning-color);
+        }
+        
+        .progress-container {
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: var(--primary-light);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stat-icon {
+            color: var(--primary-color);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(67, 97, 238, 0.2);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .summary-card {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .summary-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-content {
+            font-size: 1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .key-points {
+            margin-top: 15px;
+            display: grid;
+            gap: 10px;
+        }
+        
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--primary-light);
+            border-radius: 8px;
+        }
+        
+        .key-point-icon {
+            color: var(--primary-color);
+            margin-top: 2px;
+        }
+        
+        .flashcards-container {
+            margin-top: 30px;
+        }
+        
+        .flashcard {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            height: 200px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .flashcard-front {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .flashcard-back {
+            background-color: var(--primary-color);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.1rem;
+            overflow-y: auto;
+        }
+        
+        .footnote {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .app-title {
+                font-size: 2rem;
+            }
+            
+            .app-subtitle {
+                font-size: 1rem;
+            }
+            
+            .lesson-tab {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .active-lesson-title {
+                font-size: 1.5rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option-text {
+                font-size: 1rem;
+            }
+            
+            .lesson-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .app-title {
+                font-size: 1.8rem;
+            }
+            
+            .custom-topic-container {
+                padding: 15px;
+            }
+            
+            #generate-lesson {
+                width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .question-box {
+            animation: fadeIn 0.5s ease forwards;
+            animation-delay: calc(var(--animation-order) * 0.1s);
+            opacity: 0;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .toast-success {
+            background-color: var(--success-color);
+        }
+        
+        .toast-error {
+            background-color: var(--error-color);
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .toast-close:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="app-title">SAT Preparation App</h1>
+            <p class="app-subtitle">Interactive lessons, practice questions, and personalized feedback to boost your SAT scores</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-card">
+            <div class="tabs-container">
+                <div class="lesson-tab active">
+                    <i class="fas fa-calculator"></i>
+                    Math
+                </div>
+                <div class="lesson-tab">
+                    <i class="fas fa-book-open"></i>
+                    Reading
+                </div>
+                <div class="lesson-tab">
+                    <i class="fas fa-pen-fancy"></i>
+                    Writing & Language
+                </div>
+                <div class="lesson-tab">
+                    <i class="fas fa-edit"></i>
+                    Essay
+                </div>
+                <div class="lesson-tab">
+                    <i class="fas fa-brain"></i>
+                    Test Strategies
+                </div>
+                <div class="lesson-tab">
+                    <i class="fas fa-star"></i>
+                    My Progress
+                </div>
+            </div>
+            
+            <div class="custom-topic-container">
+                <div class="input-group">
+                    <label class="input-label" for="custom-topic">Study any topic:</label>
+                    <input type="text" id="custom-topic" placeholder="Enter a specific topic (e.g., Quadratic Equations, Pronoun Agreement, etc.)">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Difficulty:</label>
+                    <div class="difficulty-selector">
+                        <div class="difficulty-option" data-difficulty="beginner">Beginner</div>
+                        <div class="difficulty-option active" data-difficulty="intermediate">Intermediate</div>
+                        <div class="difficulty-option" data-difficulty="advanced">Advanced</div>
+                    </div>
+                </div>
+                
+                <button id="generate-lesson">
+                    <i class="fas fa-bolt"></i>
+                    Generate Lesson
+                </button>
+            </div>
+            
+            <div class="lesson-content">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+        
+        <div class="footnote">
+            <p>© 2025 SAT Preparation App. All rights reserved.</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+        <button class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configuration for API calls
+        const OPENAI_API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your actual API key
+        const OPENAI_API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+        
+        // Track user performance and preferences
+        let userPerformance = {
+            currentDifficulty: 'intermediate', // beginner, intermediate, advanced
+            correctAnswers: 0,
+            totalAnswers: 0,
+            subjectPerformance: {
+                math: { correct: 0, total: 0 },
+                reading: { correct: 0, total: 0 },
+                writing: { correct: 0, total: 0 },
+                essay: { correct: 0, total: 0 },
+                testStrategies: { correct: 0, total: 0 }
+            },
+            recentTopics: [],
+            streak: 0,
+            lastStudyDate: null
+        };
+        
+        // Element references
+        const lessonContent = document.querySelector('.lesson-content');
+        const tabsContainer = document.querySelector('.tabs-container');
+        const difficultyOptions = document.querySelectorAll('.difficulty-option');
+        const generateButton = document.getElementById('generate-lesson');
+        const customTopicInput = document.getElementById('custom-topic');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        // Show a toast notification
+        function showToast(message, type = 'normal') {
+            toastMessage.textContent = message;
+            toast.className = 'toast show';
+            
+            if (type === 'success') {
+                toast.classList.add('toast-success');
+            } else if (type === 'error') {
+                toast.classList.add('toast-error');
+            }
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Handle difficulty selection
+        difficultyOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                difficultyOptions.forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                userPerformance.currentDifficulty = this.getAttribute('data-difficulty');
+                showToast(`Difficulty set to ${userPerformance.currentDifficulty}`, 'success');
+            });
+        });
+        
+        // Handle tab navigation
+        const tabs = document.querySelectorAll('.lesson-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const tabText = this.textContent.trim();
+                let topic;
+                let subject;
+                
+                if (tabText.includes('Math')) {
+                    topic = 'Algebraic Expressions';
+                    subject = 'math';
+                } else if (tabText.includes('Reading')) {
+                    topic = 'Main Ideas and Supporting Details';
+                    subject = 'reading';
+                } else if (tabText.includes('Writing')) {
+                    topic = 'Subject-Verb Agreement';
+                    subject = 'writing';
+                } else if (tabText.includes('Essay')) {
+                    topic = 'Essay Structure and Planning';
+                    subject = 'essay';
+                } else if (tabText.includes('Test Strategies')) {
+                    topic = 'Time Management Strategies';
+                    subject = 'testStrategies';
+                } else if (tabText.includes('Progress')) {
+                    renderProgressDashboard();
+                    return;
+                }
+                
+                renderLesson(topic, subject);
+            });
+        });
+        
+        // Generate lesson on button click
+        generateButton.addEventListener('click', function() {
+            const customTopic = customTopicInput.value.trim();
+            if (!customTopic) {
+                showToast('Please enter a topic to study', 'error');
+                customTopicInput.focus();
+                return;
+            }
+            
+            const activeTab = document.querySelector('.lesson-tab.active');
+            let subject = 'general';
+            
+            if (activeTab) {
+                const tabText = activeTab.textContent.trim().toLowerCase();
+                if (tabText.includes('math')) subject = 'math';
+                else if (tabText.includes('reading')) subject = 'reading';
+                else if (tabText.includes('writing')) subject = 'writing';
+                else if (tabText.includes('essay')) subject = 'essay';
+                else if (tabText.includes('test')) subject = 'testStrategies';
+            }
+            
+            renderLesson(customTopic, subject);
+            
+            // Add to recent topics
+            if (!userPerformance.recentTopics.includes(customTopic)) {
+                userPerformance.recentTopics.unshift(customTopic);
+                if (userPerformance.recentTopics.length > 10) {
+                    userPerformance.recentTopics.pop();
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('userPerformance', JSON.stringify(userPerformance));
+        });
+        
+        // Enter key triggers lesson generation
+        customTopicInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                generateButton.click();
+            }
+        });
+        
+        // Toast close button
+        document.querySelector('.toast-close').addEventListener('click', function() {
+            toast.classList.remove('show');
+        });
+        
+        // Function to generate lesson content
+        async function generateLessonContent(topic, difficulty) {
+            const prompt = `Create a concise, easy-to-understand explanation of ${topic} for SAT preparation. 
+            The explanation should be at ${difficulty} level and no more than 3 paragraphs.
+            Focus on key concepts and include 3 key points that students must remember.
+            Also include 5 practice questions with multiple choice options and explanations.
+            Format your response in a way that's easy to parse with JSON.`;
+            
+            // Display loading state
+            lessonContent.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Generating your personalized ${topic} lesson...</p>
+                </div>
+            `;
+            
+            try {
+                // This is a mock API call for demo purposes
+                // In a real app, you would make an actual API call to OpenAI or similar
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const mockResponse = {
+                            explanation: `<p>${topic} is a fundamental concept in ${difficulty} level SAT preparation. It requires understanding the relationship between variables and constants in mathematical expressions.</p>
+                            <p>When working with ${topic}, students need to recognize patterns, simplify expressions, and solve for unknown values while following the order of operations.</p>
+                            <p>Mastering ${topic} will improve your performance on multiple sections of the SAT, as these concepts are frequently tested in various contexts.</p>`,
+                            keyPoints: [
+                                `Always follow the order of operations: Parentheses, Exponents, Multiplication/Division, Addition/Subtraction`,
+                                `When simplifying expressions, combine like terms and factor when possible`,
+                                `Check your work by substituting your solution back into the original problem`
+                            ],
+                            questions: [
+                                {
+                                    text: `If x + 3 = 7, what is the value of 2x + 6?`,
+                                    options: [
+                                        "A) 8",
+                                        "B) 10",
+                                        "C) 14",
+                                        "D) 20"
+                                    ],
+                                    correctIndex: 1,
+                                    explanation: `First, solve for x: x + 3 = 7 → x = 4. Then substitute this value: 2x + 6 = 2(4) + 6 = 8 + 6 = 14. The answer is C) 14.`
+                                },
+                                {
+                                    text: `Which of the following is equivalent to 3(x - 2) + 4?`,
+                                    options: [
+                                        "A) 3x - 6 + 4", 
+                                        "B) 3x - 2", 
+                                        "C) 3x - 2 + 4", 
+                                        "D) 3x - 6"
+                                    ],
+                                    correctIndex: 0,
+                                    explanation: `Using the distributive property: 3(x - 2) + 4 = 3x - 6 + 4 = 3x - 2. The answer is A) 3x - 6 + 4.`
+                                },
+                                {
+                                    text: `If 2y - 5 = 3y + 2, what is the value of y?`,
+                                    options: [
+                                        "A) -7", 
+                                        "B) -3", 
+                                        "C) 3", 
+                                        "D) 7"
+                                    ],
+                                    correctIndex: 0,
+                                    explanation: `2y - 5 = 3y + 2\n2y - 3y = 2 + 5\n-y = 7\ny = -7. The answer is A) -7.`
+                                },
+                                {
+                                    text: `Which expression is equivalent to (x² + 2x - 3) - (x² - 4x + 5)?`,
+                                    options: [
+                                        "A) 6x - 8", 
+                                        "B) 6x - 2", 
+                                        "C) 2x - 8", 
+                                        "D) 2x - 2"
+                                    ],
+                                    correctIndex: 0,
+                                    explanation: `(x² + 2x - 3) - (x² - 4x + 5) = x² + 2x - 3 - x² + 4x - 5 = 6x - 8. The answer is A) 6x - 8.`
+                                },
+                                {
+                                    text: `If f(x) = 2x² - 3x + 1, what is f(2)?`,
+                                    options: [
+                                        "A) 3", 
+                                        "B) 5", 
+                                        "C) 7", 
+                                        "D) 9"
+                                    ],
+                                    correctIndex: 1,
+                                    explanation: `f(2) = 2(2)² - 3(2) + 1 = 2(4) - 6 + 1 = 8 - 6 + 1 = 3. The answer is A) 3.`
+                                }
+                            ],
+                            flashcards: [
+                                {
+                                    front: "What is the order of operations?",
+                                    back: "PEMDAS: Parentheses, Exponents, Multiplication/Division, Addition/Subtraction"
+                                },
+                                {
+                                    front: "What are like terms?",
+                                    back: "Terms that have the same variable(s) raised to the same power(s), such as 3x and 5x, or 2y² and -4y²"
+                                },
+                                {
+                                    front: "What is the distributive property?",
+                                    back: "a(b + c) = ab + ac"
+                                }
+                            ]
+                        };
+                        resolve(mockResponse);
+                    }, 1500);
+                });
+            } catch (error) {
+                console.error('Error generating lesson:', error);
+                showToast('Failed to generate lesson. Please try again.', 'error');
+                return null;
+            }
+        }
+        
+        // Render a lesson based on topic and subject
+        async function renderLesson(topic, subject) {
+            const difficulty = userPerformance.currentDifficulty;
+            
+            // Update the UI to show what's being loaded
+            lessonContent.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Generating your ${difficulty} ${subject} lesson on ${topic}...</p>
+                </div>
+            `;
+            
+            // Update last study date
+            userPerformance.lastStudyDate = new Date().toISOString();
+            
+            // Generate and render the lesson
+            const lessonData = await generateLessonContent(topic, difficulty);
+            if (!lessonData) return;
+            
+            let html = `
+                <div class="lesson-header">
+                    <h2 class="active-lesson-title">
+                        <i class="fas fa-graduation-cap"></i> 
+                        ${topic}
+                    </h2>
+                    <div class="lesson-stats">
+                        <div class="stat-box">
+                            <i class="fas fa-tachometer-alt stat-icon"></i>
+                            <span>Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
+                        </div>
+                        <div class="stat-box">
+                            <i class="fas fa-book stat-icon"></i>
+                            <span>Subject: ${subject.charAt(0).toUpperCase() + subject.slice(1)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-info-circle"></i>
+                            Concept Overview
+                        </div>
+                    </div>
+                    <div class="summary-content">
+                        ${lessonData.explanation}
+                    </div>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Key Points to Remember
+                        </div>
+                    </div>
+                    <div class="key-points">
+                        ${lessonData.keyPoints.map((point, index) => `
+                            <div class="key-point">
+                                <div class="key-point-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div>${point}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="practice-section fade-in">
+                    <h3 class="section-title">
+                        <i class="fas fa-pencil-alt"></i>
+                        Practice Questions
+                    </h3>
+                    <div class="questions-container">
+            `;
+            
+            // Add questions
+            lessonData.questions.forEach((question, qIndex) => {
+                html += `
+                    <div class="question-box" style="--animation-order: ${qIndex}">
+                        <div class="question-text">${question.text}</div>
+                        <div class="options-container">
+                            ${question.options.map((option, oIndex) => `
+                                <div class="option" data-question="${qIndex}" data-option="${oIndex}">
+                                    <div class="option-text">${option}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="explanation" id="explanation-${qIndex}" style="display: none;">
+                            <div class="explanation-header">
+                                <i class="fas fa-info-circle"></i>
+                                Explanation:
+                            </div>
+                            <div class="explanation-text">${question.explanation}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            // Add flashcards section
+            html += `
+                <div class="flashcards-container fade-in">
+                    <h3 class="section-title">
+                        <i class="fas fa-clone"></i>
+                        Flashcards
+                    </h3>
+                    <div class="flashcards">
+                        ${lessonData.flashcards.map((card, index) => `
+                            <div class="flashcard" data-index="${index}">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <i class="fas fa-question-circle" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                                        ${card.front}
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <i class="fas fa-lightbulb" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                                        ${card.back}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            lessonContent.innerHTML = html;
+            
+            // Add event listeners for options
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = this.getAttribute('data-question');
+                    const optionIndex = parseInt(this.getAttribute('data-option'));
+                    const correctIndex = lessonData.questions[questionIndex].correctIndex;
+                    
+                    // Remove previously selected options
+                    const questionOptions = document.querySelectorAll(`.option[data-question="${questionIndex}"]`);
+                    questionOptions.forEach(opt => opt.classList.remove('correct', 'incorrect', 'selected'));
+                    
+                    // Mark as selected
+                    this.classList.add('selected');
+                    
+                    // Check if correct
+                    if (optionIndex === correctIndex) {
+                        this.classList.add('correct');
+                        userPerformance.correctAnswers++;
+                        userPerformance.subjectPerformance[subject].correct++;
+                        userPerformance.streak++;
+                    } else {
+                        this.classList.add('incorrect');
+                        questionOptions[correctIndex].classList.add('correct');
+                        userPerformance.streak = 0;
+                    }
+                    
+                    userPerformance.totalAnswers++;
+                    userPerformance.subjectPerformance[subject].total++;
+                    
+                    // Show explanation
+                    document.getElementById(`explanation-${questionIndex}`).style.display = 'block';
+                    
+                    // Save performance
+                    localStorage.setItem('userPerformance', JSON.stringify(userPerformance));
+                });
+            });
+            
+            // Add event listeners for flashcards
+            const flashcards = document.querySelectorAll('.flashcard');
+            flashcards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+            });
+        }
+        
+        // Render progress dashboard
+        function renderProgressDashboard() {
+            // Load data from localStorage
+            const savedData = localStorage.getItem('userPerformance');
+            if (savedData) {
+                userPerformance = JSON.parse(savedData);
+            }
+            
+            const totalCorrect = userPerformance.correctAnswers;
+            const totalAttempted = userPerformance.totalAnswers;
+            const accuracy = totalAttempted > 0 ? ((totalCorrect / totalAttempted) * 100).toFixed(1) : 0;
+            
+            let html = `
+                <div class="lesson-header">
+                    <h2 class="active-lesson-title">
+                        <i class="fas fa-chart-line"></i> 
+                        My Progress
+                    </h2>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-trophy"></i>
+                            Performance Overview
+                        </div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat-box">
+                            <div class="progress-stat-value">${accuracy}%</div>
+                            <div class="progress-stat-label">Accuracy</div>
+                        </div>
+                        <div class="progress-stat-box">
+                            <div class="progress-stat-value">${totalCorrect}</div>
+                            <div class="progress-stat-label">Correct Answers</div>
+                        </div>
+                        <div class="progress-stat-box">
+                            <div class="progress-stat-value">${totalAttempted}</div>
+                            <div class="progress-stat-label">Questions Attempted</div>
+                        </div>
+                        <div class="progress-stat-box">
+                            <div class="progress-stat-value">${userPerformance.streak}</div>
+                            <div class="progress-stat-label">Current Streak</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-book"></i>
+                            Subject Performance
+                        </div>
+                    </div>
+                    <div class="subject-progress">
+            `;
+            
+            // Add subject performance
+            const subjects = Object.keys(userPerformance.subjectPerformance);
+            subjects.forEach(subject => {
+                const subjectData = userPerformance.subjectPerformance[subject];
+                const subjectAccuracy = subjectData.total > 0 ? ((subjectData.correct / subjectData.total) * 100).toFixed(1) : 0;
+                const subjectName = subject.charAt(0).toUpperCase() + subject.slice(1);
+                const subjectIcon = getSubjectIcon(subject);
+                
+                html += `
+                    <div class="subject-progress-item">
+                        <div class="subject-info">
+                            <div class="subject-icon">
+                                <i class="${subjectIcon}"></i>
+                            </div>
+                            <div class="subject-name">${subjectName}</div>
+                        </div>
+                        <div class="subject-stats">
+                            <div class="subject-accuracy">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${subjectAccuracy}%"></div>
+                                </div>
+                                <div class="accuracy-value">${subjectAccuracy}%</div>
+                            </div>
+                            <div class="question-count">${subjectData.correct}/${subjectData.total} questions</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-history"></i>
+                            Recent Topics
+                        </div>
+                    </div>
+                    <div class="recent-topics">
+            `;
+            
+            // Add recent topics
+            if (userPerformance.recentTopics.length === 0) {
+                html += `<p>You haven't studied any topics yet. Start by selecting a topic above!</p>`;
+            } else {
+                html += `<ul class="topic-list">`;
+                userPerformance.recentTopics.forEach(topic => {
+                    html += `
+                        <li class="topic-item">
+                            <i class="fas fa-bookmark"></i>
+                            ${topic}
+                        </li>
+                    `;
+                });
+                html += `</ul>`;
+            }
+            
+            html += `
+                    </div>
+                </div>
+                
+                <div class="summary-card fade-in">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Study Recommendations
+                        </div>
+                    </div>
+                    <div class="recommendations">
+            `;
+            
+            // Add recommendations based on performance
+            const weakestSubject = getWeakestSubject();
+            
+            if (weakestSubject) {
+                html += `
+                    <div class="recommendation">
+                        <div class="recommendation-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="recommendation-text">
+                            <div class="recommendation-title">Focus on ${weakestSubject.charAt(0).toUpperCase() + weakestSubject.slice(1)}</div>
+                            <div class="recommendation-desc">
+                                Your accuracy in this subject is lower than others. Consider practicing more ${weakestSubject} questions.
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (userPerformance.streak >= 5) {
+                html += `
+                    <div class="recommendation">
+                        <div class="recommendation-icon success">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="recommendation-text">
+                            <div class="recommendation-title">Keep Up the Streak!</div>
+                            <div class="recommendation-desc">
+                                You're on a ${userPerformance.streak} question streak. Great work!
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Generic recommendations
+            html += `
+                <div class="recommendation">
+                    <div class="recommendation-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="recommendation-text">
+                        <div class="recommendation-title">Practice Timed Sessions</div>
+                        <div class="recommendation-desc">
+                            Try setting a timer for your practice sessions to improve your speed.
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            lessonContent.innerHTML = html;
+            
+            // Add click event to topic items to quickly study them again
+            const topicItems = document.querySelectorAll('.topic-item');
+            topicItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const topic = this.textContent.trim();
+                    const activeTab = document.querySelector('.lesson-tab.active');
+                    let subject = 'general';
+                    
+                    if (activeTab) {
+                        const tabText = activeTab.textContent.trim().toLowerCase();
+                        if (tabText.includes('math')) subject = 'math';
+                        else if (tabText.includes('reading')) subject = 'reading';
+                        else if (tabText.includes('writing')) subject = 'writing';
+                        else if (tabText.includes('essay')) subject = 'essay';
+                        else if (tabText.includes('test')) subject = 'testStrategies';
+                    }
+                    
+                    renderLesson(topic, subject);
+                });
+            });
+        }
+        
+        // Helper function to get the weakest subject
+        function getWeakestSubject() {
+            let weakestSubject = null;
+            let lowestAccuracy = 100;
+            
+            Object.entries(userPerformance.subjectPerformance).forEach(([subject, data]) => {
+                if (data.total >= 3) { // Only consider subjects with at least 3 questions
+                    const accuracy = data.total > 0 ? (data.correct / data.total) * 100 : 0;
+                    if (accuracy < lowestAccuracy) {
+                        lowestAccuracy = accuracy;
+                        weakestSubject = subject;
+                    }
+                }
+            });
+            
+            return weakestSubject;
+        }
+        
+        // Helper function to get subject icon
+        function getSubjectIcon(subject) {
+            switch(subject) {
+                case 'math': return 'fas fa-calculator';
+                case 'reading': return 'fas fa-book-open';
+                case 'writing': return 'fas fa-pen-fancy';
+                case 'essay': return 'fas fa-edit';
+                case 'testStrategies': return 'fas fa-brain';
+                default: return 'fas fa-graduation-cap';
+            }
+        }
+        
+        // Load user performance from localStorage if available
+        const savedData = localStorage.getItem('userPerformance');
+        if (savedData) {
+            userPerformance = JSON.parse(savedData);
+            
+            // Set difficulty based on saved preference
+            difficultyOptions.forEach(option => {
+                if (option.getAttribute('data-difficulty') === userPerformance.currentDifficulty) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        }
+        
+        // Default lesson to show on page load
+        renderLesson('Algebraic Expressions', 'math');
+    });
+    </script>
+</body>
+</html>

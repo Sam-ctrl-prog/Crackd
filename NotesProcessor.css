@@ -1,0 +1,291 @@
+/* NotesProcessor.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #000;
+    color: #f0f0f0;
+  }
+  
+  /* Header */
+  .header {
+    padding: 16px;
+    border-bottom: 1px solid #111;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+    width: 100%;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: #ccc;
+    margin-bottom: 24px;
+  }
+  
+  /* Input Section */
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .input-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .input-box {
+    border: 1px solid #222;
+    border-radius: 4px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+  
+  .input-box:hover {
+    border-color: #333;
+  }
+  
+  .input-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    color: #666;
+  }
+  
+  .icon.recording {
+    color: #e74c3c;
+  }
+  
+  .input-label {
+    margin-left: 12px;
+    color: #ccc;
+  }
+  
+  .browse-button {
+    margin-left: auto;
+    padding: 4px 12px;
+    background-color: #111;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .hidden-input {
+    display: none;
+  }
+  
+  .file-name {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .url-input {
+    margin-left: auto;
+    padding: 4px 12px;
+    background-color: #111;
+    border: none;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .url-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px #333;
+  }
+  
+  .record-button {
+    margin-left: auto;
+    padding: 4px 12px;
+    background-color: #111;
+    border: none;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .record-button.recording {
+    background-color: #521b15;
+    color: #ffb3b3;
+  }
+  
+  .process-button {
+    margin-top: 24px;
+    padding: 8px;
+    width: 100%;
+    background-color: #111;
+    border: 1px solid #222;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .process-button:hover:not(:disabled) {
+    background-color: #222;
+  }
+  
+  .process-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .button-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Notes Section */
+  .notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .notes-title {
+    font-size: 18px;
+    font-family: monospace;
+  }
+  
+  .notes-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .action-button {
+    padding: 4px 8px;
+    background-color: #111;
+    border: none;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  .notes-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .section {
+    border-left: 1px solid #222;
+    padding-left: 12px;
+  }
+  
+  .section-heading {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .section-content {
+    color: #999;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  
+  .key-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .key-point {
+    background-color: #111;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  .back-button {
+    margin-top: 16px;
+    padding: 4px 12px;
+    background-color: #111;
+    border: none;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 16px;
+    text-align: center;
+    color: #444;
+    font-size: 12px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .input-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .browse-button,
+    .url-input,
+    .record-button {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    .notes-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
