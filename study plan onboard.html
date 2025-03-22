@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your SAT Study Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d2d;
+            --accent-color: #8e44ad;
+            --accent-light: #9b59b6;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--bg-secondary);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            row-gap: 10px;
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-emoji {
+            font-size: 2rem;
+        }
+
+        .plan-duration {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .progress-section {
+            margin: 30px 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .progress-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background-color: var(--bg-tertiary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .tasks-section {
+            margin: 30px 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .day-card {
+            margin-bottom: 20px;
+        }
+
+        .day-header {
+            padding: 15px;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .day-header:hover {
+            background-color: rgba(142, 68, 173, 0.2);
+        }
+
+        .day-content {
+            padding: 20px;
+            display: none;
+        }
+
+        .day-content.active {
+            display: block;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .task-icon {
+            background-color: var(--accent-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .task-details {
+            flex: 1;
+        }
+
+        .task-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .task-duration {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .task-status {
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+        }
+
+        .task-status.completed {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a3a3a;
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(231, 76, 60, 0.3);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .plan-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .progress-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #121212; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;">
+        <div style="text-align: center;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #8e44ad; margin-bottom: 20px;"></i>
+            <h2 style="color: white; font-family: 'Segoe UI', 'Roboto', sans-serif;">Creating your personalized SAT study plan...</h2>
+            <div style="width: 300px; height: 10px; background-color: #2d2d2d; border-radius: 5px; margin-top: 20px; overflow: hidden;">
+                <div id="loading-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #8e44ad, #9b59b6); transition: width 10s linear;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <header>
+            <h1>🎯 Your SAT Study Plan</h1>
+            <div id="assigned-plan-display"></div>
+        </header>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <div class="progress-title">Your Progress</div>
+                <div class="progress-stats">
+                    <div class="days-completed"><span id="days-completed">0</span>/<span id="total-days">14</span> Days</div>
+                    <div class="tasks-completed"><span id="tasks-completed">0</span>/<span id="total-tasks">42</span> Tasks</div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="tasks-section">
+            <div class="section-title">
+                <i class="fas fa-calendar-check"></i>
+                Daily Tasks
+            </div>
+            <div id="daily-tasks-container"></div>
+        </div>
+
+        <div class="buttons-container">
+            <button class="btn btn-primary" id="start-plan">
+                <i class="fas fa-play"></i>
+                Start Plan
+            </button>
+            <button class="btn btn-secondary" id="view-schedule">
+                <i class="fas fa-calendar-alt"></i>
+                View Full Schedule
+            </button>
+            <button class="btn btn-danger" id="reset-plan">
+                <i class="fas fa-redo-alt"></i>
+                Reset Plan
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration and initialization
+// Add this at the beginning of your script section
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// User data structure
+let userData = {
+    testType: "",
+    testDate: "",
+    currentScore: 0,
+    targetScore: 0,
+    studyTimePerWeek: 0,
+    preferredMethod: "",
+    strengths: [],
+    weaknesses: []
+};
+
+// Fetch user data from Firebase
+async function fetchUserData(userId) {
+    try {
+        const userDoc = await db.collection("users").doc(userId).get();
+        
+        if (userDoc.exists) {
+            userData = userDoc.data();
+            console.log("User data loaded:", userData);
+            
+            // Select appropriate study plan based on user data
+            selectStudyPlan(userData);
+            return true;
+        } else {
+            console.error("No user data found!");
+            return false;
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return false;
+    }
+}
+
+// Plan selection algorithm based on user preferences
+function selectStudyPlan(userData) {
+    let selectedPlan;
+    const currentDate = new Date();
+    const testDate = new Date(userData.testDate);
+    
+    // Calculate days until test
+    const daysUntilTest = Math.ceil((testDate - currentDate) / (1000 * 60 * 60 * 24));
+    
+    // Score improvement needed
+    const improvementNeeded = userData.targetScore - userData.currentScore;
+    
+    // Available study time per week
+    const studyTimePerWeek = userData.studyTimePerWeek;
+    
+    // Plan selection logic
+    if (daysUntilTest <= 7) {
+        // Last minute crash plan for immediate test dates
+        selectedPlan = studyPlans.find(plan => plan.name === "Last-Minute SAT Crash Plan");
+    } else if (daysUntilTest <= 14) {
+        // Fast track for near-term tests
+        selectedPlan = studyPlans.find(plan => plan.name === "SAT Fast Track Plan");
+    } else if (studyTimePerWeek < 5) {
+        // Weekend warrior for those with limited weekly time
+        selectedPlan = studyPlans.find(plan => plan.name === "Weekend Warrior SAT Plan");
+    } else if (improvementNeeded > 200) {
+        // Balanced plan for significant improvement needs
+        selectedPlan = studyPlans.find(plan => plan.name === "Balanced SAT Prep Plan");
+    } else if (userData.currentScore >= 1200 && userData.targetScore >= 1400) {
+        // Advanced plan for high scorers
+        selectedPlan = studyPlans.find(plan => plan.name === "1400+ Score SAT Plan");
+    } else {
+        // Subject-specific plans based on weaknesses
+        if (userData.weaknesses.includes("math")) {
+            selectedPlan = studyPlans.find(plan => plan.name === "Math-Focused SAT Plan");
+        } else if (userData.weaknesses.includes("reading") || userData.weaknesses.includes("writing")) {
+            selectedPlan = studyPlans.find(plan => plan.name === "Reading & Writing Focus Plan");
+        } else if (userData.weaknesses.includes("essay")) {
+            selectedPlan = studyPlans.find(plan => plan.name === "SAT Essay Mastery Plan");
+        } else {
+            // Default to balanced plan
+            selectedPlan = studyPlans.find(plan => plan.name === "Balanced SAT Prep Plan");
+        }
+    }
+    
+    // Initialize app with selected plan
+    initializeAppWithPlan(selectedPlan);
+}
+
+// Modify initializeApp to accept a specific plan
+function initializeAppWithPlan(plan) {
+    const assignedPlan = plan || studyPlans[0]; // Default to first plan if none specified
+    
+    // Display the assigned plan info
+    document.getElementById('assigned-plan-display').innerHTML = `
+        <div class="plan-info">
+            <div class="plan-header">
+                <div class="plan-name"><span class="plan-emoji">${assignedPlan.emoji}</span> ${assignedPlan.name}</div>
+                <div class="plan-duration">${assignedPlan.duration}</div>
+            </div>
+            <div class="plan-description">${assignedPlan.description}</div>
+            <div class="plan-personalization-note">This plan was selected based on your test date (${new Date(userData.testDate).toLocaleDateString()}), 
+            current score (${userData.currentScore}), target score (${userData.targetScore}), and identified areas for improvement.</div>
+        </div>
+    `;
+    
+    // Update total days and tasks counts
+    document.getElementById('total-days').textContent = assignedPlan.days;
+    
+    let totalTasks = 0;
+    assignedPlan.tasks.forEach(day => {
+        totalTasks += day.tasks.length;
+    });
+    document.getElementById('total-tasks').textContent = totalTasks;
+    
+    // Generate daily tasks
+    generateDailyTasks(assignedPlan);
+    
+    // Add event listeners
+    document.getElementById('start-plan').addEventListener('click', function() {
+        alert('Plan started! Your progress will be tracked as you complete tasks.');
+        // Save plan start to Firebase
+        if (userData.userId) {
+            saveUserProgress(userData.userId, {
+                planStarted: true,
+                planStartDate: new Date(),
+                assignedPlanName: assignedPlan.name
+            });
+        }
+    });
+    
+    document.getElementById('view-schedule').addEventListener('click', function() {
+        alert('Full schedule view coming soon!');
+    });
+    
+    document.getElementById('reset-plan').addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset your progress and start over?')) {
+            resetProgress();
+            // Save reset to Firebase
+            if (userData.userId) {
+                saveUserProgress(userData.userId, {
+                    planStarted: false,
+                    completedTasks: [],
+                    lastReset: new Date()
+                });
+            }
+        }
+    });
+    
+    // Set up day toggles
+    setupDayToggles();
+    
+    // Setup task completion
+    setupTaskCompletion();
+    
+    // Load saved progress if available
+    if (userData.userId && userData.completedTasks) {
+        loadSavedProgress(userData.completedTasks);
+    }
+}
+
+// Save user progress to Firebase
+function saveUserProgress(userId, progressData) {
+    db.collection("users").doc(userId).update({
+        progress: firebase.firestore.FieldValue.arrayUnion(progressData)
+    })
+    .then(() => {
+        console.log("Progress saved successfully");
+    })
+    .catch((error) => {
+        console.error("Error saving progress:", error);
+    });
+}
+
+// Save completed task to Firebase
+function saveCompletedTask(userId, taskId, completed) {
+    // Get current list of completed tasks
+    db.collection("users").doc(userId).get()
+    .then((doc) => {
+        if (doc.exists) {
+            let completedTasks = doc.data().completedTasks || [];
+            
+            if (completed) {
+                // Add task if not already in the list
+                if (!completedTasks.includes(taskId)) {
+                    completedTasks.push(taskId);
+                }
+            } else {
+                // Remove task if in the list
+                completedTasks = completedTasks.filter(id => id !== taskId);
+            }
+            
+            // Update the list in Firestore
+            db.collection("users").doc(userId).update({
+                completedTasks: completedTasks
+            });
+        }
+    })
+    .catch((error) => {
+        console.error("Error updating completed tasks:", error);
+    });
+}
+
+// Load saved progress
+function loadSavedProgress(completedTasks) {
+    if (!completedTasks || !Array.isArray(completedTasks)) return;
+    
+    completedTasks.forEach(taskId => {
+        const taskElement = document.querySelector(`.task[data-task-id="${taskId}"] .task-status`);
+        if (taskElement) {
+            taskElement.classList.add('completed');
+        }
+    });
+    
+    // Update progress display
+    updateProgress();
+}
+
+// Modified toggleTaskStatus to save changes to Firebase
+function toggleTaskStatus(element) {
+    const taskId = element.closest('.task').dataset.taskId;
+    const isCompleted = element.classList.toggle('completed');
+    
+    // If user is logged in, save to Firebase
+    if (userData && userData.userId) {
+        saveCompletedTask(userData.userId, taskId, isCompleted);
+    }
+    
+    updateProgress();
+}
+
+// Modified loading screen logic
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loading-bar');
+    const mainContent = document.querySelector('.container');
+    
+    // Hide main content initially
+    mainContent.style.display = 'none';
+    
+    // Start loading animation
+    setTimeout(function() {
+        loadingBar.style.width = '100%';
+    }, 50);
+    
+    // Check if user is logged in
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in
+            const userId = user.uid;
+            
+            // Update loading message
+            document.querySelector('#loading-screen h2').textContent = "Loading your personalized SAT study plan...";
+            
+            // Fetch user data and initialize app
+            fetchUserData(userId).then(success => {
+                // Hide loading screen
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }, 500);
+            });
+        } else {
+            // No user is signed in, show generic plan
+            setTimeout(function() {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    
+                    // Initialize with random plan for non-logged in users
+                    initializeApp();
+                }, 500);
+            }, 3000);
+        }
+    });
+});
+
+// Add login/signup button if not logged in
+function addAuthButtons() {
+    const container = document.querySelector('.buttons-container');
+    
+    const loginButton = document.createElement('button');
+    loginButton.className = 'btn btn-secondary';
+    loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+    loginButton.addEventListener('click', showLoginModal);
+    
+    const signupButton = document.createElement('button');
+    signupButton.className = 'btn btn-secondary';
+    signupButton.innerHTML = '<i class="fas fa-user-plus"></i> Sign Up';
+    signupButton.addEventListener('click', showSignupModal);
+    
+    container.appendChild(loginButton);
+    container.appendChild(signupButton);
+}
+
+// Check if user is logged in on page load
+firebase.auth().onAuthStateChanged((user) => {
+    if (!user) {
+        // User is not signed in, add auth buttons
+        addAuthButtons();
+    }
+});
+        // Study plans data with specific SAT content
+        const studyPlans = [
+            {
+                name: "SAT Fast Track Plan",
+                emoji: "🚀",
+                duration: "2 Weeks",
+                description: "Intensive SAT prep for students with limited time before the test.",
+                days: 14,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Math: Linear Equations & Inequalities", icon: "fas fa-square-root-alt", duration: "90 min" },
+                        { name: "Reading: Main Idea & Supporting Details", icon: "fas fa-book-reader", duration: "60 min" },
+                        { name: "Complete SAT Practice Test Section 1", icon: "fas fa-file-alt", duration: "65 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Math: Quadratic Equations", icon: "fas fa-square-root-alt", duration: "90 min" },
+                        { name: "Writing: Grammar & Punctuation Rules", icon: "fas fa-pencil-alt", duration: "60 min" },
+                        { name: "Complete SAT Practice Test Section 2", icon: "fas fa-file-alt", duration: "35 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Math: Data Analysis & Statistics", icon: "fas fa-chart-bar", duration: "90 min" },
+                        { name: "Reading: Vocabulary in Context", icon: "fas fa-language", duration: "60 min" },
+                        { name: "Complete SAT Practice Test Section 3", icon: "fas fa-file-alt", duration: "55 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Math: Geometry & Trigonometry", icon: "fas fa-shapes", duration: "90 min" },
+                        { name: "Writing: Sentence Structure", icon: "fas fa-edit", duration: "60 min" },
+                        { name: "Complete SAT Practice Test Section 4", icon: "fas fa-file-alt", duration: "55 min" }
+                    ]},
+                    { day: 5, tasks: [
+                        { name: "Full SAT Practice Test", icon: "fas fa-file-signature", duration: "3 hours" },
+                        { name: "Review & Analyze Mistakes", icon: "fas fa-search", duration: "90 min" }
+                    ]}
+                ]
+            },
+            {
+                name: "Balanced SAT Prep Plan",
+                emoji: "⚖️",
+                duration: "4 Weeks",
+                description: "Comprehensive SAT preparation with balanced coverage of all test sections.",
+                days: 28,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Diagnostic SAT Practice Test", icon: "fas fa-clipboard-check", duration: "3 hours" },
+                        { name: "Test Analysis & Weak Area Identification", icon: "fas fa-chart-pie", duration: "60 min" },
+                        { name: "Create Study Schedule", icon: "fas fa-calendar-alt", duration: "30 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Math: Heart of Algebra - Linear Equations", icon: "fas fa-calculator", duration: "60 min" },
+                        { name: "Reading: Information & Ideas", icon: "fas fa-book-open", duration: "60 min" },
+                        { name: "Writing: Standard English Conventions", icon: "fas fa-spell-check", duration: "60 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Math: Heart of Algebra - Linear Inequalities", icon: "fas fa-less-than-equal", duration: "60 min" },
+                        { name: "Reading: Command of Evidence", icon: "fas fa-search", duration: "60 min" },
+                        { name: "Writing: Expression of Ideas", icon: "fas fa-comment-dots", duration: "60 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Math: Problem Solving & Data Analysis", icon: "fas fa-chart-line", duration: "90 min" },
+                        { name: "Reading: Words in Context", icon: "fas fa-language", duration: "45 min" },
+                        { name: "Writing: Organization & Development", icon: "fas fa-sitemap", duration: "45 min" }
+                    ]},
+                    { day: 5, tasks: [
+                        { name: "Week 1 Mini-Test", icon: "fas fa-file-alt", duration: "2 hours" },
+                        { name: "Performance Analysis & Strategy Adjustment", icon: "fas fa-chart-bar", duration: "60 min" }
+                    ]}
+                ]
+            },
+            {
+                name: "Math-Focused SAT Plan",
+                emoji: "🧮",
+                duration: "3 Weeks",
+                description: "Intensive focus on SAT Math with additional practice for high scorers.",
+                days: 21,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Math Diagnostic Test", icon: "fas fa-calculator", duration: "60 min" },
+                        { name: "Heart of Algebra: Linear Equations Review", icon: "fas fa-equals", duration: "90 min" },
+                        { name: "Targeted Practice: Linear Equations", icon: "fas fa-tasks", duration: "45 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Heart of Algebra: Systems of Equations", icon: "fas fa-th", duration: "90 min" },
+                        { name: "Targeted Practice: Systems of Equations", icon: "fas fa-tasks", duration: "45 min" },
+                        { name: "No-Calculator Strategy Development", icon: "fas fa-ban", duration: "30 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Heart of Algebra: Linear Inequalities", icon: "fas fa-less-than-equal", duration: "90 min" },
+                        { name: "Targeted Practice: Linear Inequalities", icon: "fas fa-tasks", duration: "45 min" },
+                        { name: "Math Formulas Memorization", icon: "fas fa-brain", duration: "30 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Problem Solving: Ratios & Proportions", icon: "fas fa-percentage", duration: "90 min" },
+                        { name: "Targeted Practice: Ratios & Proportions", icon: "fas fa-tasks", duration: "45 min" },
+                        { name: "Math Strategy: Elimination Method", icon: "fas fa-minus-circle", duration: "30 min" }
+                    ]},
+                    { day: 5, tasks: [
+                        { name: "Math Section Practice Test", icon: "fas fa-file-alt", duration: "80 min" },
+                        { name: "Error Analysis & Pattern Identification", icon: "fas fa-search", duration: "60 min" },
+                        { name: "Review Key Concepts from Week 1", icon: "fas fa-sync", duration: "45 min" }
+                    ]}
+                ]
+            },
+            {
+                name: "Reading & Writing Focus Plan",
+                emoji: "📚",
+                duration: "3 Weeks",
+                description: "Comprehensive plan for students struggling with SAT Reading and Writing.",
+                days: 21,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Reading/Writing Diagnostic Test", icon: "fas fa-file-alt", duration: "65 min" },
+                        { name: "Reading: Main Idea & Supporting Details", icon: "fas fa-book-reader", duration: "60 min" },
+                        { name: "Active Reading Strategies", icon: "fas fa-highlighter", duration: "45 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Writing: Grammar Rules Review", icon: "fas fa-spell-check", duration: "60 min" },
+                        { name: "Writing: Punctuation Rules Review", icon: "fas fa-quote-right", duration: "45 min" },
+                        { name: "Targeted Practice: Grammar & Punctuation", icon: "fas fa-tasks", duration: "45 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Reading: Inference Questions", icon: "fas fa-search-plus", duration: "60 min" },
+                        { name: "Reading: Evidence-Based Questions", icon: "fas fa-file-signature", duration: "60 min" },
+                        { name: "Practice: Paired Passages", icon: "fas fa-exchange-alt", duration: "45 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Writing: Rhetorical Skills", icon: "fas fa-comments", duration: "60 min" },
+                        { name: "Writing: Sentence Structure", icon: "fas fa-project-diagram", duration: "60 min" },
+                        { name: "Targeted Practice: Rhetorical Skills", icon: "fas fa-tasks", duration: "45 min" }
+                    ]},
+                    { day: 5, tasks: [
+                        { name: "Reading Section Practice Test", icon: "fas fa-file-alt", duration: "65 min" },
+                        { name: "Writing Section Practice Test", icon: "fas fa-file-alt", duration: "35 min" },
+                        { name: "Error Analysis & Improvement Strategy", icon: "fas fa-search", duration: "60 min" }
+                    ]}
+                ]
+            },
+            {
+                name: "Weekend Warrior SAT Plan",
+                emoji: "🛡️",
+                duration: "6 Weeks",
+                description: "Weekend-only intensive SAT prep for busy students.",
+                days: 12, // Weekends only for 6 weeks
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Saturday: Math - Heart of Algebra", icon: "fas fa-square-root-alt", duration: "2 hours" },
+                        { name: "Saturday: Reading - Command of Evidence", icon: "fas fa-book-reader", duration: "2 hours" },
+                        { name: "Saturday: Practice Test Sections", icon: "fas fa-file-alt", duration: "2 hours" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Sunday: Math - Problem Solving & Data Analysis", icon: "fas fa-chart-line", duration: "2 hours" },
+                        { name: "Sunday: Writing - Standard English Conventions", icon: "fas fa-spell-check", duration: "2 hours" },
+                        { name: "Sunday: Error Analysis & Weekly Plan", icon: "fas fa-search", duration: "1 hour" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Saturday: Math - Passport to Advanced Math", icon: "fas fa-superscript", duration: "2 hours" },
+                        { name: "Saturday: Reading - Information & Ideas", icon: "fas fa-info-circle", duration: "2 hours" },
+                        { name: "Saturday: Practice Test Sections", icon: "fas fa-file-alt", duration: "2 hours" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Sunday: Math - Additional Topics", icon: "fas fa-shapes", duration: "2 hours" },
+                        { name: "Sunday: Writing - Expression of Ideas", icon: "fas fa-comment-dots", duration: "2 hours" },
+                        { name: "Sunday: Error Analysis & Weekly Plan", icon: "fas fa-search", duration: "1 hour" }
+                    ]}
+                ]
+            },
+            {
+                name: "Last-Minute SAT Crash Plan",
+                emoji: "⏱️",
+                duration: "1 Week",
+                description: "Emergency SAT prep for students with less than a week before the test.",
+                days: 7,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Math: Algebra & Functions Quick Review", icon: "fas fa-calculator", duration: "2 hours" },
+                        { name: "Reading: Question Types & Strategies", icon: "fas fa-book-reader", duration: "2 hours" },
+                        { name: "Test-Taking Strategies & Time Management", icon: "fas fa-clock", duration: "1 hour" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Math: Problem Solving & Data Analysis", icon: "fas fa-chart-line", duration: "2 hours" },
+                        { name: "Writing: Grammar & Punctuation Review", icon: "fas fa-spell-check", duration: "2 hours" },
+                        { name: "Practice Test Sections", icon: "fas fa-file-alt", duration: "1 hour" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Math: Geometry & Trigonometry", icon: "fas fa-shapes", duration: "2 hours" },
+                        { name: "Reading: Passage Types & Approaches", icon: "fas fa-book-open", duration: "2 hours" },
+                        { name: "Practice Test Sections", icon: "fas fa-file-alt", duration: "1 hour" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Half-Length Practice Test", icon: "fas fa-file-signature", duration: "2 hours" },
+                        { name: "Error Analysis & Targeted Practice", icon: "fas fa-search", duration: "2 hours" },
+                        { name: "Final Strategy Review", icon: "fas fa-chess", duration: "1 hour" }
+                    ]}
+                ]
+            },
+            {
+                name: "1400+ Score SAT Plan",
+                emoji: "🏆",
+                duration: "4 Weeks",
+                description: "Advanced preparation for students aiming for top SAT scores.",
+                days: 28,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Advanced Math: Complex Equations", icon: "fas fa-square-root-alt", duration: "90 min" },
+                        { name: "Reading: Advanced Inference & Synthesis", icon: "fas fa-book-reader", duration: "90 min" },
+                        { name: "Writing: Subtle Grammar & Style", icon: "fas fa-pencil-alt", duration: "60 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Advanced Math: Challenging Word Problems", icon: "fas fa-puzzle-piece", duration: "90 min" },
+                        { name: "Reading: Paired Passage Analysis", icon: "fas fa-exchange-alt", duration: "90 min" },
+                        { name: "Writing: Rhetorical Analysis", icon: "fas fa-comment-dots", duration: "60 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Advanced Math: Data Interpretation", icon: "fas fa-chart-bar", duration: "90 min" },
+                        { name: "Reading: Science Passage Techniques", icon: "fas fa-flask", duration: "90 min" },
+                        { name: "Error Log & Pattern Recognition", icon: "fas fa-search", duration: "60 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Advanced Math: Challenging Geometry", icon: "fas fa-shapes", duration: "90 min" },
+                        { name: "Reading: History Passage Techniques", icon: "fas fa-landmark", duration: "90 min" },
+                        { name: "Writing: Development & Organization", icon: "fas fa-sitemap", duration: "60 min" }
+                    ]},
+                    { day: 5, tasks: [
+                        { name: "Full Practice Test", icon: "fas fa-file-signature", duration: "3 hours" },
+                        { name: "Advanced Error Analysis", icon: "fas fa-microscope", duration: "90 min" },
+                        { name: "Strategy Optimization", icon: "fas fa-arrow-up", duration: "60 min" }
+                    ]}
+                ]
+            },
+            {
+                name: "SAT Essay Mastery Plan",
+                emoji: "✍️",
+                duration: "2 Weeks",
+                description: "Focused preparation for the optional SAT Essay.",
+                days: 14,
+                tasks: [
+                    { day: 1, tasks: [
+                        { name: "Essay Structure & Requirements", icon: "fas fa-list-ol", duration: "60 min" },
+                        { name: "Analyzing Example Essays", icon: "fas fa-search", duration: "90 min" },
+                        { name: "Thesis Development Practice", icon: "fas fa-lightbulb", duration: "45 min" }
+                    ]},
+                    { day: 2, tasks: [
+                        { name: "Rhetorical Analysis Techniques", icon: "fas fa-comment-dots", duration: "90 min" },
+                        { name: "Evidence Selection Practice", icon: "fas fa-balance-scale", duration: "60 min" },
+                        { name: "Stylistic Devices Review", icon: "fas fa-feather-alt", duration: "45 min" }
+                    ]},
+                    { day: 3, tasks: [
+                        { name: "Introduction Writing Workshop", icon: "fas fa-door-open", duration: "60 min" },
+                        { name: "Body Paragraph Structure", icon: "fas fa-paragraph", duration: "90 min" },
+                        { name: "Conclusion Writing Workshop", icon: "fas fa-door-closed", duration: "60 min" }
+                    ]},
+                    { day: 4, tasks: [
+                        { name: "Timed Essay Writing Practice", icon: "fas fa-stopwatch", duration: "50 min" },
+                        { name: "Self-Evaluation & Rubric Scoring", icon: "fas fa-clipboard-check", duration: "60 min" },
+                        { name: "Improvement Strategy Development", icon: "fas fa-arrow-up", duration: "45 min" }
+                    ]}
+                ]
+            }
+        ];
+        
+        // Loading screen logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loading-bar');
+            const mainContent = document.querySelector('.container');
+            
+            // Hide main content initially
+            mainContent.style.display = 'none';
+            
+            // Start loading animation
+            setTimeout(function() {
+                loadingBar.style.width = '100%';
+            }, 50);
+            
+            // Hide loading screen after 10 seconds
+            setTimeout(function() {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    
+                    // Initialize the app after loading
+                    initializeApp();
+                }, 500);
+            }, 10000);
+        });
+        
+        // Initialize the application
+        function initializeApp() {
+            // Randomly assign a study plan for demo purposes
+            const randomPlanIndex = Math.floor(Math.random() * studyPlans.length);
+            const assignedPlan = studyPlans[randomPlanIndex];
+            
+            // Display the assigned plan info
+            document.getElementById('assigned-plan-display').innerHTML = `
+                <div class="plan-info">
+                    <div class="plan-header">
+                        <div class="plan-name"><span class="plan-emoji">${assignedPlan.emoji}</span> ${assignedPlan.name}</div>
+                        <div class="plan-duration">${assignedPlan.duration}</div>
+                    </div>
+                    <div class="plan-description">${assignedPlan.description}</div>
+                </div>
+            `;
+            
+            // Update total days and tasks counts
+            document.getElementById('total-days').textContent = assignedPlan.days;
+            
+            let totalTasks = 0;
+            assignedPlan.tasks.forEach(day => {
+                totalTasks += day.tasks.length;
+            });
+            document.getElementById('total-tasks').textContent = totalTasks;
+            
+            // Generate daily tasks
+            generateDailyTasks(assignedPlan);
+            
+            // Add event listeners
+            document.getElementById('start-plan').addEventListener('click', function() {
+                alert('Plan started! Your progress will be tracked as you complete tasks.');
+            });
+            
+            document.getElementById('view-schedule').addEventListener('click', function() {
+                alert('Full schedule view coming soon!');
+            });
+            
+            document.getElementById('reset-plan').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset your progress and start over?')) {
+                    resetProgress();
+                }
+            });
+            
+            // Set up day toggles
+            setupDayToggles();
+            
+            // Setup task completion
+            setupTaskCompletion();
+        }
+        
+        // Generate daily tasks HTML
+        function generateDailyTasks(plan) {
+            const container = document.getElementById('daily-tasks-container');
+            container.innerHTML = '';
+            
+            // Display only the first 5 days for now
+            const displayDays = plan.tasks.length > 5 ? 5 : plan.tasks.length;
+            
+            for (let i = 0; i < displayDays; i++) {
+                const day = plan.tasks[i];
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day-card';
+                
+                let tasksHTML = '';
+                day.tasks.forEach(task => {
+                    tasksHTML += `
+                        <div class="task" data-task-id="${task.name.replace(/\s+/g, '-').toLowerCase()}">
+                            <div class="task-info">
+                                <div class="task-icon">
+                                    <i class="${task.icon}"></i>
+                                </div>
+                                <div class="task-details">
+                                    <div class="task-name">${task.name}</div>
+                                    <div class="task-duration">${task.duration}</div>
+                                </div>
+                            </div>
+                            <div class="task-status" onclick="toggleTaskStatus(this)">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                dayElement.innerHTML = `
+                    <div class="day-header" onclick="toggleDay(this)">
+                        <div>Day ${day.day}</div>
+                        <div><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="day-content">
+                        ${tasksHTML}
+                    </div>
+                `;
+                
+                container.appendChild(dayElement);
+            }
+        }
+        
+        // Toggle day content visibility
+        function toggleDay(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fas');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.className = 'fas fa-chevron-down';
+            } else {
+                content.classList.add('active');
+                icon.className = 'fas fa-chevron-up';
+            }
+        }
+        
+        // Toggle task completion status
+        function toggleTaskStatus(element) {
+            element.classList.toggle('completed');
+            updateProgress();
+        }
+        
+        // Setup day toggles
+        function setupDayToggles() {
+            document.querySelectorAll('.day-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    toggleDay(this);
+                });
+            });
+        }
+        
+        // Setup task completion
+        function setupTaskCompletion() {
+            document.querySelectorAll('.task-status').forEach(status => {
+                status.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleTaskStatus(this);
+                });
+            });
+        }
+        
+        // Update progress
+        function updateProgress() {
+            const totalTasks = parseInt(document.getElementById('total-tasks').textContent);
+            const completedTasks = document.querySelectorAll('.task-status.completed').length;
+            
+            document.getElementById('tasks-completed').textContent = completedTasks;
+            
+            // Calculate completed days (if all tasks in a day are completed)
+            const dayElements = document.querySelectorAll('.day-card');
+            let completedDays = 0;
+            
+            dayElements.forEach(dayElement => {
+                const dayTasks = dayElement.querySelectorAll('.task-status');
+                const completedDayTasks = dayElement.querySelectorAll('.task-status.completed');
+                
+                if (dayTasks.length > 0 && dayTasks.length === completedDayTasks.length) {
+                    completedDays++;
+                }
+            });
+            
+            document.getElementById('days-completed').textContent = completedDays;
+            
+            // Update progress bar
+            const progressPercentage = (completedTasks / totalTasks) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+        }
+        
+        // Reset progress
+        function resetProgress() {
+            document.querySelectorAll('.task-status.completed').forEach(task => {
+                task.classList.remove('completed');
+            });
+            
+            document.getElementById('tasks-completed').textContent = '0';
+            document.getElementById('days-completed').textContent = '0';
+            document.getElementById('progress-bar').style.width = '0%';
+        }
+    </script>
+</body>
+</html>
